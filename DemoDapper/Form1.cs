@@ -42,7 +42,15 @@ namespace DemoDapper
         private void btnObtenerID_Click(object sender, EventArgs e)
         {
             var cliente = CustomersR.ObtenerPorID(txbObtenerID.Text);
-            dgvCustomers.DataSource = new List<Customers> { cliente };
+            List<Customers> Lista = new List<Customers>
+            {
+              cliente
+            };
+            if (cliente != null)
+            {
+                llenarCampos(cliente);
+            }
+            dgvCustomers.DataSource = Lista;
         }
 
         private void btnInsertar_Click(object sender, EventArgs e)
@@ -50,6 +58,33 @@ namespace DemoDapper
             var nuevoCliente = CrearCliente();
             var insertado = CustomersR.insertarCliente(nuevoCliente);
             MessageBox.Show($"{insertado} registros insertados");
+
+        }
+
+        private void llenarCampos(Customers customers)
+        {
+            txbCustomerID.Text = customers.CustomerID;
+            txbContactTittle.Text = customers.ContactTitle;
+            txbContactName.Text = customers.ContactName;    
+            txbCompanyName.Text = customers.CompanyName;    
+            txbAddress.Text = customers.Address;
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            var actualizado = CrearCliente();
+            var actualizados = CustomersR.Update(actualizado);
+            var cliente = CustomersR.ObtenerPorID(actualizado.CustomerID);
+            dgvCustomers.DataSource = new List<Customers> { cliente };
+
+
+            MessageBox.Show($"filas actualizadas {actualizados} , {actualizado.CustomerID}");
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            var eliminadas = CustomersR.Eliminar(txbObtenerID.Text);
+            MessageBox.Show($"Se ha eliminado {eliminadas} filas de manera correcta");
 
         }
     }

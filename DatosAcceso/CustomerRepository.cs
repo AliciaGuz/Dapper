@@ -92,6 +92,48 @@ namespace DatosAcceso
             }
         }
 
+        public int Update(Customers customers)
+        {
+            using (var conexion = DataBase.GetSqlConnection())
+            {
+                String UpdateCustomer = "";
+                UpdateCustomer = UpdateCustomer + "UPDATE [dbo].[Customers] " + "\n";
+                UpdateCustomer = UpdateCustomer + "   SET [CustomerID] = @CustomerID " + "\n";
+                UpdateCustomer = UpdateCustomer + "      ,[CompanyName] = @CompanyName " + "\n";
+                UpdateCustomer = UpdateCustomer + "      ,[ContactName] = @ContactName " + "\n";
+                UpdateCustomer = UpdateCustomer + "      ,[ContactTitle] = @ContactTitle " + "\n";
+                UpdateCustomer = UpdateCustomer + "      ,[Address] = @Address " + "\n";
+                UpdateCustomer = UpdateCustomer + " WHERE CustomerID = @CustomerID";
+
+
+                var actualizadas =
+                    conexion.Execute(UpdateCustomer, new
+                    {
+                        CustomerID = customers.CustomerID,
+                        CompanyName = customers.CompanyName,
+                        ContactName = customers.ContactName,
+                        ContactTitle = customers.ContactTitle,
+                        Address = customers.Address
+                    });
+                return actualizadas;
+            }
+        }
+        public int Eliminar(string id)
+        {
+            using (var conexion = DataBase.GetSqlConnection())
+            {
+                String Delete = "";
+                Delete = Delete + "DELETE FROM [dbo].[Customers] " + "\n";
+                Delete = Delete + "      WHERE CustomerID = @CustomerID";
+
+                var eliminadas = conexion.Execute(Delete, new { CustomerID = id });
+                
+                return eliminadas;
+            }
+
+        }
+        
+
        
 
 
