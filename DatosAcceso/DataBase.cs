@@ -24,23 +24,4 @@ namespace DatosAcceso
         public string Fax { get; set; }
     }
 
-    public class DataBase
-    {
-        public static string ConnectionString
-        { 
-            get
-            {
-                return ConfigurationManager.ConnectionStrings["NWConnectionString"].ConnectionString;
-            }
-        }
-
-        public static SqlConnection GetSqlConnection() 
-        { 
-            SqlConnection conexion = new SqlConnection(ConnectionString);
-            conexion.Open();
-            return conexion;
-        }
-
-        
-    }
 }
